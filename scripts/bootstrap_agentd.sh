@@ -36,7 +36,6 @@ mkdir -p $CONF/zabbix_agentd.conf.d
 cat <<EOT > $CONF/zabbix_agentd.conf
 LogFile=/tmp/zabbix_server.log
 LogFileSize=1024
-LogType=console
 ListenPort=10050
 DebugLevel=3
 EnableRemoteCommands=$REMOTE_COMMAND
