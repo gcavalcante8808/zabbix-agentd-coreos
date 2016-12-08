@@ -5,24 +5,24 @@ if [ ! -d "/opt/bin" ]; then
     mkdir -p /opt/bin
 fi
 
-echo "Downloading Zabbix Agentd ${ZBX_VERSION}"
+echo "Downloading Zabbix Agentd $ZBX_VERSION"
 wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/$ZBX_VERSION/zabbix_agentd -O /opt/bin/zabbix_agentd && \
 chmod +x /opt/bin/zabbix_agentd
 
 echo "Starting Config Generation"
 CONF="/opt/etc/zabbix/"
 
-if [ -z ${ZABBIX_SERVER} ]; then
+if [ -z $ZABBIX_SERVER ]; then
     echo "No default zabbix-server provided. Exiting ..."
     exit 1
 fi
 
-if [ -z ${REMOTE_COMMAND} ]; then
+if [ -z $REMOTE_COMMAND ]; then
     echo "No Remote Command Configuration Provided. Assuming 0 (no support)"
     REMOTE_COMMAND=0
 fi
 
-if [ -z ${ZABBIX_SERVER_PORT} ];then
+if [ -z $ZABBIX_SERVER_PORT ];then
     echo "No Zabbix Server Port Provided. Assuming 10051."
     ZABBIX_SERVER_PORT=10051
 fi
