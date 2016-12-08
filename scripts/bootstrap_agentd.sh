@@ -1,12 +1,16 @@
 #!/bin/bash
 set -e
 
+if [ ! -d "/opt/bin" ]
+    mkdir -p /opt/bin
+fi
+
 echo "Downloading Zabbix Agentd ${ZBX_VERSION}"
 wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/{$ZBX_VERSION}/zabbix_agentd -O /opt/bin/zabbix_agentd && \
 chmod +x /opt/bin/zabbix_agentd
 
 echo "Starting Config Generation"
-CONF="/opt/local/etc/zabbix_agentd.conf.d"
+CONF="/opt/etc/zabbix_agentd.conf.d"
 
 if [ -z ${ZABBIX_SERVER} ]; then
     echo "No default zabbix-server provided. Exiting ..."
@@ -23,7 +27,7 @@ if [ -z ${ZABBIX_SERVER_PORT} ];then
     ZABBIX_SERVER_PORT=10051
 fi
 
-if [ ! -d "/tmp/firstrun" ]; then
+if [ ! -d "$CONF" ]; then
 
 mkdir -p $CONF
 
