@@ -6,11 +6,11 @@ if [ ! -d "/opt/bin" ]; then
 fi
 
 echo "Downloading Zabbix Agentd ${ZBX_VERSION}"
-wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/{$ZBX_VERSION}/zabbix_agentd -O /opt/bin/zabbix_agentd && \
+wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/$ZBX_VERSION/zabbix_agentd -O /opt/bin/zabbix_agentd && \
 chmod +x /opt/bin/zabbix_agentd
 
 echo "Starting Config Generation"
-CONF="/opt/etc/zabbix_agentd.conf.d"
+CONF="/opt/etc/zabbix/"
 
 if [ -z ${ZABBIX_SERVER} ]; then
     echo "No default zabbix-server provided. Exiting ..."
@@ -29,19 +29,20 @@ fi
 
 if [ ! -d "$CONF" ]; then
 
-mkdir -p $CONF
+mkdir -p $CONF/zabbix_agentd.conf.d
 
-cat <<EOT > $CONF/general.conf
+cat <<EOT > $CONF/zabbix_agentd.conf
 LogFile=/tmp/zabbix_server.log
 LogFileSize=1024
 LogType=console
 ListenPort=10050
 DebugLevel=3
-EnableRemoteCommands=${REMOTE_COMMAND}
+EnableRemoteCommands=$REMOTE_COMMAND
 LogRemoteCommands=1
-Server=${ZABBIX_SERVER}
-ServerActive=${ZABBIX_SERVER}:${ZABBIX_SERVER_PORT}
+Server=$ZABBIX_SERVER
+ServerActive=$ZABBIX_SERVER:$ZABBIX_SERVER_PORT
 Timeout=30
+Include=/opt/etc/zabbix/zabbix_agentd.conf.d
 EOT
 
     touch /tmp/firstrun
