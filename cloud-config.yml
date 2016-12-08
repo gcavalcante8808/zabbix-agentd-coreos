@@ -1,0 +1,28 @@
+#cloud-config
+
+ssh_authorized_keys:
+ - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJIR7+y8WCx0oZwZ8S3OBOsSvJkrwI3Tu2sshKXOS9zPjEoKA0t1YV2FdV3AUH3dG14dironbnl8iVmapWQ9s9veopBy2kXjrsXdMKlHhswHlAFezCyJv9o49NkMdW8pjSOb4dJZxzTIhbuLyejivIDKmQVrBbWHiVBY8DOk50i3GlT6ksXJzKsMwtYWX5zR7+EOjX1WqE1aXFnQX26w269nUiNK93hLYJcM5NMEvZvoyDPBWaAtGdnIjWG5rm71o5OxTZIYWtk+IOHQj+fTqZuPkS5mAy+ta1O4GSW5Hun+E8JlASSZUJMh4f0McXsW0eGeSOrKaVKxnEZgcWJ/un support@localhost"
+
+coreos:
+  update:
+    reboot-strategy:
+  units:
+    - name: "docker.service"
+      drop-ins:
+        - name: "50-default-options.conf"
+          content: |
+            [Service]
+            Environment=DOCKER_OPTS='--insecure-registry="registry.ts3corp.com.br:5000 --log-driver=json-file --log-opt max-size=100m"'
+
+users:
+  - name: "zabbix"
+    no-create-home: true'
+    groups:
+     - zabbix
+     - docker
+
+runcmd:
+ - 'wget https://raw.githubusercontent.com/gcavalcante8808/zabbix-agentd-coreos/master/scripts/bootstrap.sh -O /opt/bin/bootstrap_agentd.sh'
+ - 'chmod +x /opt/bin/bootstrap_agentd.sh'
+ - 'ZBX_VERSION="" ZBX_SERVER=""/opt/bin/bootstrap_agentd.sh'
+
