@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ ! -d "/opt/bin" ]
+if [ ! -d "/opt/bin" ]; then
     mkdir -p /opt/bin
 fi
 
