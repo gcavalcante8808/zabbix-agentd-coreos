@@ -5,11 +5,12 @@ if [ ! -d "/opt/bin" ]; then
     mkdir -p /opt/bin
 fi
 
-echo "Downloading Zabbix Agentd $ZBX_VERSION"
-wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/$ZBX_VERSION/zabbix_agentd -O /opt/bin/zabbix_agentd && \
-chmod +x /opt/bin/zabbix_agentd
+if [ ! -f "/opt/bin/zabbix_agentd" ]; then
+    echo "Downloading Zabbix Agentd $ZBX_VERSION"
+    wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/$ZBX_VERSION/zabbix_agentd -O /opt/bin/zabbix_agentd && \
+    chmod +x /opt/bin/zabbix_agentd
+fi
 
-echo "Starting Config Generation"
 CONF="/opt/etc/zabbix/"
 
 if [ -z $ZABBIX_SERVER ]; then
@@ -29,6 +30,7 @@ fi
 
 if [ ! -d "$CONF" ]; then
 
+echo "Starting Config Generation"
 mkdir -p $CONF/zabbix_agentd.conf.d
 
 cat <<EOT > $CONF/zabbix_agentd.conf
