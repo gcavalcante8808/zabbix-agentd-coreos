@@ -38,9 +38,11 @@ if [ ! -d "$CONF" ]; then
 
 echo "Starting Config Generation"
 mkdir -p $CONF/zabbix_agentd.conf.d
+mkdir -p /run/zabbix
 
 cat <<EOT > $CONF/zabbix_agentd.conf
 LogFile=/tmp/zabbix_server.log
+PidFile=/run/zabbix/zabbix_agentd.pid
 LogFileSize=1024
 ListenPort=10050
 DebugLevel=3
