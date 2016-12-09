@@ -2,13 +2,19 @@
 set -e
 
 if [ ! -d "/opt/bin" ]; then
-    mkdir -p /opt/bin
+    mkdir -p /opt/{bin,etc,lib}
 fi
 
 if [ ! -f "/opt/bin/zabbix_agentd" ]; then
     echo "Downloading Zabbix Agentd $ZBX_VERSION"
-    wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/$ZBX_VERSION/zabbix_agentd -O /opt/bin/zabbix_agentd && \
+    wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/$ZBX_VERSION/zabbix_agentd.tar -O /tmp && \
+    cd /tmp && \
+    tar xf zabbix_agentd.tar && \
+    mv zabbix_agentd /opt/bin/ && \
+    mv libssl.so.10 /opt/lib/ && \
+    mv libcrypto.so.10 /opt/lib/ && \
     chmod +x /opt/bin/zabbix_agentd
+    rm /tmp/zabbix_agentd.tar
 fi
 
 CONF="/opt/etc/zabbix/"
@@ -45,7 +51,5 @@ ServerActive=$ZABBIX_SERVER:$ZABBIX_SERVER_PORT
 Timeout=30
 Include=/opt/etc/zabbix/zabbix_agentd.conf.d
 EOT
-
-    touch /tmp/firstrun
 fi
 
