@@ -3,6 +3,7 @@
 coreos:
   units:
     - name: "zabbix-agentd.service"
+      enable: true
       command: "start"
       content: |
         [Unit]
