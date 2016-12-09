@@ -7,7 +7,7 @@ fi
 
 if [ ! -f "/opt/bin/zabbix_agentd" ]; then
     echo "Downloading Zabbix Agentd $ZBX_VERSION"
-    wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/$ZBX_VERSION/zabbix_agentd.tar -O /tmp && \
+    wget https://github.com/gcavalcante8808/zabbix-agentd-coreos/releases/download/$ZBX_VERSION/zabbix_agentd.tar -O /tmp/zabbix_agentd.tar && \
     cd /tmp && \
     tar xf zabbix_agentd.tar && \
     mv zabbix_agentd /opt/bin/ && \
