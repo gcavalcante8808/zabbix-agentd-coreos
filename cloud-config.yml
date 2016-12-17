@@ -17,7 +17,7 @@ coreos:
         Environment="ZBX_VERSION=3.2.1"
         Environment="ZABBIX_SERVER=yourserver"
         Environment="LD_LIBRARY_PATH=/opt/lib"
-        PIDFile=/var/run/zabbix/zabbix_agentd.pid
+        PIDFile=/tmp/zabbix_agentd.pid
         KillMode=control-group
         ExecStartPre=/usr/bin/wget https://raw.githubusercontent.com/gcavalcante8808/zabbix-agentd-coreos/master/scripts/bootstrap_agentd.sh -O /bootstrap_agentd.sh
         ExecStartPre=/usr/bin/chmod +x /bootstrap_agentd.sh
